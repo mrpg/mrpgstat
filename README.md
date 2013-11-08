@@ -7,9 +7,6 @@ This is a very simple and easy-to-use statistics program. With input from
 stdin, it provides some information about standard deviation, average,
 minimum and maximum.
 
-If the input is a binomial distribution with a sufficiently large
-sample, this program will also estimate the underlying probability p.
-
 This programm is using double precision in C++.
 
 Simply use ***make*** to build from source. The binary can be installed

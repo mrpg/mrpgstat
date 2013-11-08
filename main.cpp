@@ -52,14 +52,12 @@ int main(void) {
 		nums.push_back(tmp);
 	}
 
-	double mean, sd, p1;
+	double mean, sd;
 
 	auto a = now();
 	mean = avg(nums);
 	sd = sddev(nums,mean);
 	auto b = now();
-
-	p1 = ((sqrt((1.0-(4.0*(sd*sd)/nums.size()))))+1.0)/2.0;
 
 	std::cout << std::setprecision(20);
 
@@ -69,7 +67,6 @@ int main(void) {
 	std::cout << "  MAX: " << *std::max_element(nums.begin(),nums.end()) << '\n';
 	std::cout << "  AVG: " << mean << '\n';
 	std::cout << "SDDEV: " << sd << '\n';
-	if (p1 == p1) std::cout << "    P: " << p1 << '\n';
 	std::cout << "-----\n";
 	std::cout << round(nums.size()/deltaT(a,b)) << " doubles/s\n";
 }
