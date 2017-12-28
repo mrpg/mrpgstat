@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <chrono>
+#include <cmath>
 
 // ---
 // Stolen from my own C++ snippets:
@@ -19,54 +20,31 @@ inline double deltaT(std::chrono::time_point<std::chrono::high_resolution_clock>
 // End of stolen code
 // ---
 
-inline double square(double a) {
-	return a*a;
-}
-
-double avg(const std::vector<double>& nums) {
-	double a = 0;
-
-	for (auto& c: nums) {
-		a += c;
-	}
-
-	return a/nums.size();
-}
-
-double sddev(const std::vector<double>& nums, double mean) {
-	const double co = 1.0/nums.size();
-	double s = 0;
-
-	for (auto& c: nums) {
-		s += square(c-mean)*co;
-	}
-
-	return sqrt(s);
-}
-
 int main(void) {
-	std::vector<double> nums;
-	double tmp;
+	auto a = now();
+
+	double sum = 0, sqsum = 0, max, min, tmp;
+	size_t n = 0;
 
 	while (std::cin >> tmp) {
-		nums.push_back(tmp);
+		sum += tmp;
+		sqsum += tmp*tmp;
+		n++;
+
+		if (tmp > max || n == 1) max = tmp;
+		if (tmp < min || n == 1) min = tmp;
 	}
 
-	double mean, sd;
-
-	auto a = now();
-	mean = avg(nums);
-	sd = sddev(nums,mean);
 	auto b = now();
 
-	std::cout << std::setprecision(20);
+	std::cout << std::fixed;
 
-	std::cout << "    N: " << nums.size() << '\n';
-	std::cout << "  SUM: " << mean*nums.size() << '\n';
-	std::cout << "  MIN: " << *std::min_element(nums.begin(),nums.end()) << '\n';
-	std::cout << "  MAX: " << *std::max_element(nums.begin(),nums.end()) << '\n';
-	std::cout << "  AVG: " << mean << '\n';
-	std::cout << "SDDEV: " << sd << '\n';
+	std::cout << "    N: " << n << '\n';
+	std::cout << "  SUM: " << sum << '\n';
+	std::cout << "  MIN: " << min << '\n';
+	std::cout << "  MAX: " << max << '\n';
+	std::cout << "  AVG: " << sum/n << '\n';
+	std::cout << "SDDEV: " << sqrt(sqsum/n - (sum/n)*(sum/n)) << '\n';
 	std::cout << "-----\n";
-	std::cout << round(nums.size()/deltaT(a,b)) << " doubles/s\n";
+	std::cout << round(n/deltaT(a,b)) << " doubles/s (input speed)\n";
 }
